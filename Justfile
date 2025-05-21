@@ -1,6 +1,6 @@
 [working-directory: '.']
 benchmark: compile
-        hyperfine 'cat ./board.txt | rust/target/release/boggle-rust' 'cat ./board.txt | go/boggle' --warmup 5
+        hyperfine 'cat ./board.txt | rust/target/release/boggle-rust' 'cat ./board.txt | go/boggle' 'cat ./board.txt | haskell/boggle' --warmup 5
 
 compile: compile-rust compile-go compile-haskell
 
@@ -10,11 +10,13 @@ compile-rust:
 
 [working-directory: 'go']
 compile-go:
-        go build
+        go build -ldflags="-s -w" -o boggle main.go
 
 [working-directory: 'haskell']
 compile-haskell:
-        ghc main.hs -Wno-x-partial
+        ghc main.hs -Wno-x-partial -O2 -o boggle
+        rm main.hi
+        rm main.o
         
 clean: clean-rust clean-go clean-haskell
 
@@ -28,4 +30,4 @@ clean-go:
 
 [working-directory: 'haskell']
 clean-haskell:
-        rm main main.hi main.o
+        rm boggle
