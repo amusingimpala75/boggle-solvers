@@ -14,7 +14,7 @@ compile-go:
 
 [working-directory: 'haskell']
 compile-haskell:
-        ghc main.hs
+        ghc main.hs -Wno-x-partial
         
 clean: clean-rust clean-go clean-haskell
 
