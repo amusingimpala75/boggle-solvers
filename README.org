@@ -1,0 +1,33 @@
+* Boggle Solvers
+
+This is mostly just a fun experiment to learn a few different languages.
+
+Board is read from stdin, dictionary from a hard-coded file path. It then prints out each valid word (sorted first by length and then alphabetically from there), as well as a word count and maximum score.
+
+*** Languages
+- [ ] A: Ada
+- [ ] B: Bash
+- [ ] C: Cobol
+- [ ] D: D, Dart, or Delphi
+- [ ] E: Elixir or Erlang
+- [ ] F: Fortran or Forth
+- [X] G: Go
+- [X] H: Haskell
+- [ ] I: Io or Idris
+- [ ] J: Jai, Janet, Joy
+- [ ] K: Kotlin
+- [ ] L: (Common) Lisp (or Scheme ig)
+- [ ] M: Matlab or Module(-2, -3?)
+- [ ] N: Nim
+- [ ] O: OCaml
+- [ ] P: Perl or Prolog
+- [ ] Q: ? 
+- [X] R: Rust
+- [ ] S: Smalltalk or Swift
+- [ ] T: tcl
+- [ ] U: ?
+- [ ] V: ?
+- [ ] W: ?
+- [ ] X: ?
+- [ ] Y: ?
+- [ ] Z: Zig
