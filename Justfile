@@ -4,13 +4,23 @@ benchmark: compile
 
 compile: compile-rust compile-go compile-haskell
 
+clean: clean-rust clean-go clean-haskell
+
 [working-directory: 'rust']
 compile-rust:
         cargo build -r
 
+[working-directory: 'rust']
+clean-rust:
+        cargo clean
+
 [working-directory: 'go']
 compile-go:
         go build -ldflags="-s -w" -o boggle main.go
+
+[working-directory: 'go']
+clean-go:
+        rm boggle
 
 [working-directory: 'haskell']
 compile-haskell:
@@ -18,16 +28,6 @@ compile-haskell:
         rm main.hi
         rm main.o
         
-clean: clean-rust clean-go clean-haskell
-
-[working-directory: 'rust']
-clean-rust:
-        cargo clean
-
-[working-directory: 'go']
-clean-go:
-        rm boggle
-
 [working-directory: 'haskell']
 clean-haskell:
         rm boggle
