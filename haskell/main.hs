@@ -47,12 +47,6 @@ dictEntryContains (Nonterminal children) partial word = dictMapContains children
 dictMapContains :: [(Char, DictEntry)] -> Bool -> String -> Bool
 dictMapContains children partial (x:xs) = let results = filter (\(char, _) -> char == x) children in not (null results) && dictEntryContains (snd $ head results) partial xs
 
-getConnected :: (Int, Int) -> [(Int, Int)]
-getConnected (x, y) = filterBounds [(x + dx, y + dy) | dx <- [-1..1], dy <- [-1..1]]
-
-filterBounds :: [(Int, Int)] -> [(Int, Int)]
-filterBounds = filter (\(x, y) -> x `elem` [0..5-1] && y `elem` [0..5-1])
-
 mapChar :: Char -> String
 mapChar '1' = "AN"
 mapChar '2' = "ER"
@@ -68,8 +62,9 @@ getCandidate (Board chars) = concatMap (\(x, y) -> mapChar $ chars!!y!!x)
 getCandidates :: Dict -> Board -> [(Int, Int)] -> [String]
 getCandidates dict board positions@(_:_)
   | not $ dictEntryContains dict True candidate = []
-  | otherwise = candidate:concatMap (getCandidates dict board . (:positions)) neighbors
-  where neighbors = filter (not . flip elem positions) $ getConnected $ head positions
+  | otherwise = candidate:concatMap (getCandidates dict board . (:positions)) next
+  where adjacent = let (x, y) = head positions in [(x + dx, y + dy) | dx <- [-1..1], dy <- [-1..1]]
+        next = filter (not . flip elem positions) $ filter (\ (x, y) -> x `elem` [0..4] && y `elem` [0..4]) adjacent
         candidate = getCandidate board $ reverse positions
 
 getWords :: Dict -> Board -> [String]
