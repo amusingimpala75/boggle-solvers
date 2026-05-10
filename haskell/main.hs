@@ -54,7 +54,7 @@ mapChar '3' = "HE"
 mapChar '4' = "IN"
 mapChar '5' = "QU"
 mapChar '6' = "TH"
-mapChar x = [x]
+mapChar x   = [x]
 
 getCandidate :: Board -> [(Int, Int)] -> String
 getCandidate (Board chars) = concatMap (\(x, y) -> mapChar $ chars!!y!!x)
@@ -70,19 +70,16 @@ getCandidates dict board positions@(_:_)
 getWords :: Dict -> Board -> [String]
 getWords dict board = concatMap (getCandidates dict board) [[(x, y)] | x <- [0..5-1], y <- [0..5-1]]
 
-customSort :: String -> String -> Ordering
-customSort "" "" = EQ
-customSort (_:_) "" = GT
-customSort "" (_:_) = LT
-customSort a@(x:xs) b@(y:ys) = let cmp = comparing length a b in if cmp /= EQ then cmp else if x /= y then compare x y else customSort xs ys
+sortLengthThenAlpha :: String -> String -> Ordering
+sortLengthThenAlpha a b = comparing length a b <> compare a b
 
 scoreWord :: Int -> Int
-scoreWord 4 = 1
-scoreWord 5 = 2
-scoreWord 6 = 3
-scoreWord 7 = 5
+scoreWord 4   = 1
+scoreWord 5   = 2
+scoreWord 6   = 3
+scoreWord 7   = 5
 scoreWord x
-  | x >= 8 = 11
+  | x >= 8    = 11
   | otherwise = 0
 
 main = do
@@ -90,7 +87,7 @@ main = do
   
   dict <- getDict <$> readDict "./dictionary.txt"
 
-  let words = sortBy customSort $ filter (dictEntryContains dict False) $ filter (\word -> length word >= 4) $ nub $ getWords dict board
+  let words = sortBy sortLengthThenAlpha $ filter (dictEntryContains dict False) $ filter (\word -> length word >= 4) $ nub $ getWords dict board
       count = length words
       score = sum $ map (scoreWord . length) words in do
     putStr $ unlines words
